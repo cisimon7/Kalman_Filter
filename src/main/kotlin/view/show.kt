@@ -44,36 +44,35 @@ class MyView : View() {
                             }
                         }
 
-                        /*path {
-                            fill=null
-                            stroke= Colors.Web.blueviolet
-                            strokeWidth=2.0
-
-                            moveTo(xScale(model_points[0].x), yScale(model_points[0].y))
-                            model_points.drop(0).forEach { (x,y) ->
-                                lineTo(xScale(x), yScale(y))
-                            }
-                        }*/
-
                         path {
                             fill=null
                             stroke= Colors.Web.tomato
                             strokeWidth=2.0
 
-                            moveTo(xScale(kalman_points[0].x), yScale(kalman_points[0].y))
-                            kalman_points.drop(0).forEach { (x,y) ->
+                            moveTo(xScale(kalmanFilter[0].x), yScale(kalmanFilter[0].y))
+                            kalmanFilter.drop(0).forEach { (x,y) ->
                                 lineTo(xScale(x), yScale(y))
                             }
                         }
 
+                        // uncomment to see how the kalman's constant is changing, also change y-axis domain range
                         /*path {
                             fill=null
-                            stroke= Colors.Web.blueviolet
+                            stroke= Colors.Web.green
                             strokeWidth=2.0
 
-                            moveTo(xScale(gauss_points[0].x), yScale(gauss_points[0].y))
-                            gauss_points.drop(0).forEach { (x,y) ->
-                                lineTo(xScale(x), yScale(y))
+                            moveTo(xScale(kalmanConstant[0].x), yScale(kStab))
+                            kalmanConstant.drop(0).forEach { (x, _) ->
+                                lineTo(xScale(x), yScale(kStab))
+                            }
+                        }
+
+                        kalmanConstant.forEach { (x_, y_) ->
+                            circle {
+                                x = xScale(x_)
+                                y = yScale(y_)
+                                radius = 3.0
+                                fill = Colors.Web.crimson
                             }
                         }*/
                     }

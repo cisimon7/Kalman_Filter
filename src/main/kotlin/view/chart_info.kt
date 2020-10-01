@@ -26,6 +26,7 @@ val xScale = Scales.Continuous.linear {
 
 val yScale = Scales.Continuous.linear {
     domain = listOf(Data.minY, Data.maxY)
+//    domain = listOf(0.01, 0.1)    // uncomment to scale kalman's constant
     range = listOf(chartHeight, .0) // <- y is mapped in the reverse order (in SVG, javafx (0,0) is top left.
 }
 
@@ -39,6 +40,8 @@ val model_points = generateSequence(mean) { prev -> prev + rnd_gauss() }
     .map { (y, pt) -> Point(pt.x, y) }
     .toList()
 
-val kalman_points = KalmanAlgorithm(3.0, 5.0, model_points, sensor_points).run().toList()
+val kalmanFilter = KalmanAlgorithm(3.0, 15.0, model_points, sensor_points).run().map { it.first }.toList().drop(0)
+val kalmanConstant = KalmanAlgorithm(3.0, 15.0, model_points, sensor_points).run().map { it.second }.toList().drop(0)
+val kStab = kalmanConstant.map { it.y }.maxOrNull()!!
 
 val gauss_points = (1..1_000).map { x -> Point((x/2500).toDouble(), rnd_gauss()) }
